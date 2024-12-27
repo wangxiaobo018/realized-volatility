@@ -17,7 +17,7 @@ library(dplyr)
 library(lubridate)
 
 
-
+# calculate har-cj model
 get_RV_BV <- function(data, alpha = 0.05, times = TRUE){
   if(times){
     idx <- 100
