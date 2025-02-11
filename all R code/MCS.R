@@ -1,6 +1,6 @@
-# 假设data已经被正确读取并包含所需的列
+
 setwd("c:/Users/lenovo/Desktop/HAR")
-data <- read.csv("预测22步600.csv")
+data <- read.csv("DATA.csv")
 data<- na.omit(data)
 RV_true <- data$RV
 
