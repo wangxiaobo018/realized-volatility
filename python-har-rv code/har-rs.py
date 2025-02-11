@@ -378,12 +378,7 @@ def lag(x, n):
 # lanta1,lanta2,lanta3= best_result.x
 
 #
-# lanta1=39.53214673
-# lanta2=34.19680117
-# lanta3= 32.37407758
-lanta1=0.36735618
-lanta2=15.41707176
-lanta3=34.91607419
+
 #
 r2t = [conv_fun2_vectorized(TSPL_kernel_vectorized, data_rs['returns'][:i + 1].values, lanta1)
        for i in range(len(data_rs))]
