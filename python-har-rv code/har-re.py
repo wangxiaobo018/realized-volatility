@@ -722,19 +722,6 @@ results_dict = {}
 #     best_result = hybrid_optimization(har_pd_re)
 
 
-# #---------------lasso
-# lanta1=5.43919114e-04
-# lanta2=1.43378765e+01
-# lanta3=7.15981343e+00
-# lanta4=1.37940275e+01
-
-#
-#
-# #  lasso
-# lanta1=6.76031337e-02
-# lanta2=2.66564325e+01
-# lanta3=1.84199387e+01
-# lanta4=2.25294835e-02
 
 
 
@@ -996,39 +983,6 @@ results_dict = {}
 # #
 
 
-# #
-# #
-# lanta1=1.0048431668963076e-06
-# lanta2=0.011745025128895747
-# lanta3=0.022120331699243323
-# lanta4= 18.60679231401671
-# #
-
-
-#-----------------1000 no lasso
-# lanta1=31.575775
-# lanta2=6.488080
-# lanta3=5.705003
-# lanta4=0.043518
-
-
-# 沪深300
-#  no lasso
-# lanta1=0.000010
-# lanta2=0.082469
-# lanta3=0.023782
-# lanta4=37.375511
-
-
-
-#
-
-# lasso
-
-# lanta1 = 0.155507
-# lanta2 = 0.056296
-# lanta3 = 0.097920
-# lanta4 = 29.262109
 r2t = [conv_fun2_vectorized(TSPL_kernel_vectorized, har_pd_re['returns'].iloc[:i+1].values, lanta1)
        for i in range(len(har_pd_re))]
 rex_p = [conv_fun1_vectorized(TSPL_kernel_vectorized, har_pd_re['REX_plus'].iloc[:i+1].values, lanta2)
