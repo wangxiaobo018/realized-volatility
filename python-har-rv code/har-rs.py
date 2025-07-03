@@ -254,14 +254,14 @@ def lag(x, n):
 #         model_data = pd.DataFrame({
 #             'RV': data['Ret'],
 #             'r2t_lag1': pd.Series(r2t).shift(1),
-#             'r2t_lag5': pd.Series(r2t).rolling(window=5).mean(),
-#             'r2t_lag22': pd.Series(r2t).rolling(window=22).mean(),
+#             'r2t_lag5': pd.Series(r2t).rolling(window=5).mean().shift(1),
+#             'r2t_lag22': pd.Series(r2t).rolling(window=22).mean().shift(1),
 #             'rs_p_lag1': pd.Series(rs_p).shift(1),
-#             'rs_p_lag5': pd.Series(rs_p).rolling(window=5).mean(),
-#             'rs_p_lag22': pd.Series(rs_p).rolling(window=22).mean(),
+#             'rs_p_lag5': pd.Series(rs_p).rolling(window=5).mean().shift(1),
+#             'rs_p_lag22': pd.Series(rs_p).rolling(window=22).mean().shift(1),
 #             'rs_m_lag1': pd.Series(rs_m).shift(1),
-#             'rs_m_lag5': pd.Series(rs_m).rolling(window=5).mean(),
-#             'rs_m_lag22': pd.Series(rs_m).rolling(window=22).mean(),
+#             'rs_m_lag5': pd.Series(rs_m).rolling(window=5).mean().shift(1),
+#             'rs_m_lag22': pd.Series(rs_m).rolling(window=22).mean().shift(1),
 #             'rs_ratio': pd.Series(rs_p) / (pd.Series(rs_m) + 1e-6),
 #             'rs_diff': pd.Series(rs_p) - pd.Series(rs_m)
 #         }).dropna()
@@ -393,14 +393,14 @@ rs_m = pd.Series(rs_m)
 model_data = pd.DataFrame({
             'RV': data_rs['Ret'],
             'r2t_lag1': r2t.shift(1),
-            'r2t_lag5': r2t.rolling(window=5).mean(),
-            'r2t_lag22': r2t.rolling(window=22).mean(),
+            'r2t_lag5': r2t.rolling(window=5).mean().shift(1),
+            'r2t_lag22': r2t.rolling(window=22).mean().shift(1),
             'rs_p_lag1': rs_p.shift(1),
-            'rs_p_lag5': rs_p.rolling(window=5).mean(),
-            'rs_p_lag22': rs_p.rolling(window=22).mean(),
+            'rs_p_lag5': rs_p.rolling(window=5).mean().shift(1),
+            'rs_p_lag22': rs_p.rolling(window=22).mean().shift(1),
             'rs_m_lag1': rs_m.shift(1),
-            'rs_m_lag5': rs_m.rolling(window=5).mean(),
-            'rs_m_lag22': rs_m.rolling(window=22).mean()
+            'rs_m_lag5': rs_m.rolling(window=5).mean().shift(1),
+            'rs_m_lag22': rs_m.rolling(window=22).mean().shift(1)
 })
 
 
