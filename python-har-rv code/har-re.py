@@ -213,16 +213,16 @@ import os
 
 # # # 计算滞后值和滚动均值
 # # har_pd_re['rex_m_lag1'] = har_pd_re['REX_minus'].shift(1)
-# # har_pd_re['rex_m_lag5'] = har_pd_re['REX_minus'].rolling(window=5, min_periods=1).mean()
-# # har_pd_re['rex_m_lag22'] = har_pd_re['REX_minus'].rolling(window=22, min_periods=1).mean()
+# # har_pd_re['rex_m_lag5'] = har_pd_re['REX_minus'].rolling(window=5, min_periods=1).mean().shift(1)
+# # har_pd_re['rex_m_lag22'] = har_pd_re['REX_minus'].rolling(window=22, min_periods=1).mean().shift(1)
 # #
 # # har_pd_re['rex_p_lag1'] = har_pd_re['REX_plus'].shift(1)
-# # har_pd_re['rex_p_lag5'] = har_pd_re['REX_plus'].rolling(window=5, min_periods=1).mean()
-# # har_pd_re['rex_p_lag22'] = har_pd_re['REX_plus'].rolling(window=22, min_periods=1).mean()
+# # har_pd_re['rex_p_lag5'] = har_pd_re['REX_plus'].rolling(window=5, min_periods=1).mean().shift(1)
+# # har_pd_re['rex_p_lag22'] = har_pd_re['REX_plus'].rolling(window=22, min_periods=1).mean().shift(1)
 # #
 # # har_pd_re['rex_moderate_lag1'] = har_pd_re['REX_moderate'].shift(1)
-# # har_pd_re['rex_moderate_lag5'] = har_pd_re['REX_moderate'].rolling(window=5, min_periods=1).mean()
-# # har_pd_re['rex_moderate_lag22'] = har_pd_re['REX_moderate'].rolling(window=22, min_periods=1).mean()
+# # har_pd_re['rex_moderate_lag5'] = har_pd_re['REX_moderate'].rolling(window=5, min_periods=1).mean().shift(1)
+# # har_pd_re['rex_moderate_lag22'] = har_pd_re['REX_moderate'].rolling(window=22, min_periods=1).mean().shift(1)
 # #
 # # # 创建模型数据
 # # model_data = har_pd_re[['RV', 'rex_m_lag1', 'rex_m_lag5', 'rex_m_lag22',
@@ -493,17 +493,17 @@ results_dict = {}
 #         model_data = pd.DataFrame({
 #             'RV': data['RV'],
 #             'r2t_lag1': pd.Series(r2t).shift(1),
-#             'r2t_lag5': pd.Series(r2t).rolling(window=5).mean(),
-#             'r2t_lag22': pd.Series(r2t).rolling(window=22).mean(),
+#             'r2t_lag5': pd.Series(r2t).rolling(window=5).mean().shift(1),
+#             'r2t_lag22': pd.Series(r2t).rolling(window=22).mean().shift(1),
 #             'rex_minus_lag1': pd.Series(rex_m).shift(1),
-#             'rex_minus_lag5': pd.Series(rex_m).rolling(window=5).mean(),
-#             'rex_minus_lag22': pd.Series(rex_m).rolling(window=22).mean(),
+#             'rex_minus_lag5': pd.Series(rex_m).rolling(window=5).mean().shift(1),
+#             'rex_minus_lag22': pd.Series(rex_m).rolling(window=22).mean().shift(1),
 #             'rex_plus_lag1': pd.Series(rex_p).shift(1),
-#             'rex_plus_lag5': pd.Series(rex_p).rolling(window=5).mean(),
-#             'rex_plus_lag22': pd.Series(rex_p).rolling(window=22).mean(),
+#             'rex_plus_lag5': pd.Series(rex_p).rolling(window=5).mean().shift(1),
+#             'rex_plus_lag22': pd.Series(rex_p).rolling(window=22).mean().shift(1),
 #             'rex_moderate_lag1': pd.Series(rex_d).shift(1),
-#             'rex_moderate_lag5': pd.Series(rex_d).rolling(window=5).mean(),
-#             'rex_moderate_lag22': pd.Series(rex_d).rolling(window=22).mean()
+#             'rex_moderate_lag5': pd.Series(rex_d).rolling(window=5).mean().shift(1),
+#             'rex_moderate_lag22': pd.Series(rex_d).rolling(window=22).mean().shift(1)
 #         }).dropna().reset_index(drop=True)
 #
 #         # 划分训练集和测试集
@@ -604,17 +604,17 @@ results_dict = {}
 #         model_data = pd.DataFrame({
 #             'RV': data['RV'],
 #             'r2t_lag1': pd.Series(r2t).shift(1),
-#             'r2t_lag5': pd.Series(r2t).rolling(window=5).mean(),
-#             'r2t_lag22': pd.Series(r2t).rolling(window=22).mean(),
+#             'r2t_lag5': pd.Series(r2t).rolling(window=5).mean().shift(1),
+#             'r2t_lag22': pd.Series(r2t).rolling(window=22).mean().shift(1),
 #             'rex_minus_lag1': pd.Series(rex_m).shift(1),
-#             'rex_minus_lag5': pd.Series(rex_m).rolling(window=5).mean(),
-#             'rex_minus_lag22': pd.Series(rex_m).rolling(window=22).mean(),
+#             'rex_minus_lag5': pd.Series(rex_m).rolling(window=5).mean().shift(1),
+#             'rex_minus_lag22': pd.Series(rex_m).rolling(window=22).mean().shift(1),
 #             'rex_plus_lag1': pd.Series(rex_p).shift(1),
-#             'rex_plus_lag5': pd.Series(rex_p).rolling(window=5).mean(),
-#             'rex_plus_lag22': pd.Series(rex_p).rolling(window=22).mean(),
+#             'rex_plus_lag5': pd.Series(rex_p).rolling(window=5).mean().shift(1),
+#             'rex_plus_lag22': pd.Series(rex_p).rolling(window=22).mean().shift(1),
 #             'rex_moderate_lag1': pd.Series(rex_d).shift(1),
-#             'rex_moderate_lag5': pd.Series(rex_d).rolling(window=5).mean(),
-#             'rex_moderate_lag22': pd.Series(rex_d).rolling(window=22).mean()
+#             'rex_moderate_lag5': pd.Series(rex_d).rolling(window=5).mean().shift(1),
+#             'rex_moderate_lag22': pd.Series(rex_d).rolling(window=22).mean().shift(1)
 #         }).dropna().reset_index(drop=True)
 #
 #         # 划分训练集和测试集
@@ -724,147 +724,6 @@ results_dict = {}
 
 
 
-
-
-# r2t = [conv_fun2_vectorized(TSPL_kernel_vectorized, har_pd_re['returns'].iloc[:i+1].values, lanta1)
-#        for i in range(len(har_pd_re))]
-# rex_p = [conv_fun1_vectorized(TSPL_kernel_vectorized, har_pd_re['REX_plus'].iloc[:i+1].values, lanta2)
-#        for i in range(len(har_pd_re))]
-# rex_m = [conv_fun1_vectorized(TSPL_kernel_vectorized, har_pd_re['REX_minus'].iloc[:i+1].values, lanta3)
-#        for i in range(len(har_pd_re))]
-# rex_d = [conv_fun1_vectorized(TSPL_kernel_vectorized, har_pd_re['REX_moderate'].iloc[:i+1].values, lanta4)
-#        for i in range(len(har_pd_re))]
-#
-# def check_nan(lst):
-#     for item in lst:
-#         if isinstance(item, (int, float)) and np.isnan(item):
-#             return True
-#         elif isinstance(item, list) and check_nan(item):
-#             return True
-#     return False
-#
-#
-# r2t= pd.Series(r2t)
-# rex_m = pd.Series(rex_m)
-# rex_p = pd.Series(rex_p)
-# rex_d = pd.Series(rex_d)
-# #
-# # # 创建 DataFrame
-#
-# model_data = pd.DataFrame({
-#     'RV': har_pd_re['RV'],
-#     'r2t_lag1': r2t.shift(1),
-#     'r2t_lag5': r2t.rolling(window=5).mean(),
-#     'rex_minus_lag1': rex_m.shift(1),
-#     'rex_minus_lag5': rex_m.rolling(window=5).mean(),
-#     'rex_plus_lag1': rex_p.shift(1),
-#     'rex_plus_lag5': rex_p.rolling(window=5).mean(),
-#     'rex_moderate_lag1': rex_d.shift(1),
-#     'rex_moderate_lag5': rex_d.rolling(window=5).mean()
-# })
-#
-#
-#
-# # 去除可能的缺失值（如果需要）
-# model_data = model_data.dropna().reset_index(drop=True)
-#
-# print(model_data)
-#
-#
-# # 定义因变量 y 和自变量 X
-# y = model_data['RV']
-# X = model_data.drop('RV', axis=1)
-#
-# # 检查 X 和 y 是否为空
-# print(f"y is empty: {y.empty}")
-# print(f"X is empty: {X.empty}")
-#
-# # 添加常数项
-# X = sm.add_constant(X)
-#
-# # 确保没有零大小的数组
-# if y.empty or X.empty:
-#     print("Error: The data is empty or invalid.")
-# else:
-#     # 拟合线性回归模型
-#     model = sm.OLS(y, X).fit()
-#
-#     # 获取并打印模型的详细统计摘要
-#     summary = model.summary()
-#     print(summary)
-#
-
-# test_size = 600
-#
-# # 划分训练集和测试集
-# train_data = model_data.iloc[:len(model_data) - test_size]
-# test_data = model_data.iloc[len(model_data) - test_size:]
-#
-# # 分割特征和目标值
-# X_train = train_data.drop('RV', axis=1)
-# y_train = train_data['RV']
-# X_test = test_data.drop('RV', axis=1)
-# y_test = test_data['RV']
-#
-# # Initialize prediction and actual value lists
-# predictions_lr1 = []
-# actuals_lr1 = []
-# predictions_lr5 = []
-# actuals_lr5 = []
-# predictions_lr22 = []
-# actuals_lr22 = []
-#
-# # Initialize rolling window with training data
-# rolling_X = X_train.copy()
-# rolling_y = y_train.copy()
-#
-# # Rolling window prediction
-# for i in range(len(X_test)):
-#     # Train model on current window
-#     model = LinearRegression()
-#     model.fit(rolling_X, rolling_y)
-#
-#     # 1-step ahead prediction (单步预测)
-#     pred_1 = model.predict(X_test[i:i + 1])
-#     predictions_lr1.append(pred_1[0])
-#     actuals_lr1.append(y_test.iloc[i])
-#
-#     # 5-step ahead prediction (5步预测)
-#     if i + 4 < len(X_test):
-#         pred_5 = model.predict(X_test.iloc[i:i + 5])
-#         predictions_lr5.append(pred_5[-1])
-#         actuals_lr5.append(y_test.iloc[i + 4])
-#     else:
-#         predictions_lr5.append(None)
-#         actuals_lr5.append(None)
-#
-#     # 22-step ahead prediction (22步预测)
-#     if i + 21 < len(X_test):
-#         pred_22 = model.predict(X_test.iloc[i:i + 22])
-#         predictions_lr22.append(pred_22[-1])
-#         actuals_lr22.append(y_test.iloc[i + 21])
-#     else:
-#         predictions_lr22.append(None)
-#         actuals_lr22.append(None)
-#
-#     # Update rolling window by removing oldest observation and adding new one
-#     rolling_X = np.vstack((rolling_X[1:], X_test.iloc[i:i + 1].values))
-#     rolling_y = np.concatenate((rolling_y[1:], [y_test.iloc[i]]))
-#
-# # Create results DataFrame to store predictions and actuals
-# df_predictions_lr = pd.DataFrame({
-#     'Prediction_1': predictions_lr1,
-#     'Actual_1': actuals_lr1,
-#     'Prediction_5': predictions_lr5,
-#     'Actual_5': actuals_lr5,
-#     'Prediction_22': predictions_lr22,
-#     'Actual_22': actuals_lr22
-# })
-#
-# df_predictions_lr.to_csv('re_pdlasso600new.csv', index=False)
-#
-
-#
 #
 #
 # no lasso
@@ -895,17 +754,17 @@ results_dict = {}
 #         model_data = pd.DataFrame({
 #             'RV': data['RV'],
 #             'r2t_lag1': r2t.shift(1),
-#             'r2t_lag5': r2t.rolling(window=5).mean(),
-#             'r2t_lag22': r2t.rolling(window=22).mean(),
+#             'r2t_lag5': r2t.rolling(window=5).mean().shift(1),
+#             'r2t_lag22': r2t.rolling(window=22).mean().shift(1),
 #             'rex_minus_lag1': rex_m.shift(1),
-#             'rex_minus_lag5': rex_m.rolling(window=5).mean(),
-#             'rex_minus_lag22': rex_m.rolling(window=22).mean(),
+#             'rex_minus_lag5': rex_m.rolling(window=5).mean().shift(1),
+#             'rex_minus_lag22': rex_m.rolling(window=22).mean().shift(1),
 #             'rex_plus_lag1': rex_p.shift(1),
-#             'rex_plus_lag5': rex_p.rolling(window=5).mean(),
-#             'rex_plus_lag22': rex_p.rolling(window=22).mean(),
+#             'rex_plus_lag5': rex_p.rolling(window=5).mean().shift(1),
+#             'rex_plus_lag22': rex_p.rolling(window=22).mean().shift(1),
 #             'rex_moderate_lag1': rex_d.shift(1),
-#             'rex_moderate_lag5': rex_d.rolling(window=5).mean(),
-#             'rex_moderate_lag22': rex_d.rolling(window=22).mean()
+#             'rex_moderate_lag5': rex_d.rolling(window=5).mean().shift(1),
+#             'rex_moderate_lag22': rex_d.rolling(window=22).mean().shift(1)
 #         })
 #
 #         # 删除缺失值
@@ -1013,17 +872,17 @@ rex_d = pd.Series(rex_d)
 model_data = pd.DataFrame({
     'RV': har_pd_re['RV'],
     'r2t_lag1': r2t.shift(1),
-    'r2t_lag5': r2t.rolling(window=5).mean(),
-    'r2t_lag22': r2t.rolling(window=22).mean(),
+    'r2t_lag5': r2t.rolling(window=5).mean().shift(1),
+    'r2t_lag22': r2t.rolling(window=22).mean().shift(1),
     'rex_minus_lag1': rex_m.shift(1),
-    'rex_minus_lag5': rex_m.rolling(window=5).mean(),
-    'rex_minus_lag22': rex_m.rolling(window=22).mean(),
+    'rex_minus_lag5': rex_m.rolling(window=5).mean().shift(1),
+    'rex_minus_lag22': rex_m.rolling(window=22).mean().shift(1),
     'rex_plus_lag1': rex_p.shift(1),
-    'rex_plus_lag5': rex_p.rolling(window=5).mean(),
-    'rex_plus_lag22': rex_p.rolling(window=22).mean(),
+    'rex_plus_lag5': rex_p.rolling(window=5).mean().shift(1),
+    'rex_plus_lag22': rex_p.rolling(window=22).mean().shift(1),
     'rex_moderate_lag1': rex_d.shift(1),
-    'rex_moderate_lag5': rex_d.rolling(window=5).mean(),
-    'rex_moderate_lag22': rex_d.rolling(window=22).mean()
+    'rex_moderate_lag5': rex_d.rolling(window=5).mean().shift(1),
+    'rex_moderate_lag22': rex_d.rolling(window=22).mean().shift(1)
 })
 
 
