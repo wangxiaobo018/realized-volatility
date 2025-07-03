@@ -181,8 +181,8 @@ def loss_function_vectorized(params, data, test_size=1000):
         model_data = pd.DataFrame({
             'RV': data['RV'],
             'r2t_lag1': r2t.shift(1),
-            'r2t_lag5': r2t.rolling(window=5).mean(),
-            'r2t_lag22': r2t.rolling(window=22).mean(),
+            'r2t_lag5': r2t.rolling(window=5).mean().shift(1),
+            'r2t_lag22': r2t.rolling(window=22).mean().shift(1),
 
         })
 
