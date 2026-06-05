@@ -1,66 +1,223 @@
-# 导入必要的库
-import pandas as pd
-import numpy as np
 import os
-
-# 如果尚未安装 arch 库，请首先安装
-# !pip install arch
-
+import glob
+import numpy as np
+import pandas as pd
 from arch.bootstrap import MCS
 
-# 设置工作目录（根据您的实际路径修改）
-os.chdir("c:/Users/lenovo/Desktop/HAR")
+# =====================================================
+# 1. 基本设置
+# =====================================================
+data_dir = r"D:\pycharm\doctor\新的路径依赖代码\沪深300"
 
-# 读取数据
-data = pd.read_csv("预测1步500.csv")
+#
+#
+# model_files = {
+#     "HAR-CJ": "HAR-CJ-H1",
+#     "HAR-REQ": "HAR-REQ-H1",
+#     "HAR-REX": "HAR-REX-H1",
+#     "HAR-RS": "HAR-RS-H1",
+#     "HAR-RV": "HAR-RV-H1",
+#
+#    "HAR-PD-RV": "HAR-PD-RV-H1",
+#    "HAR-PD-CJ": "HAR-PD-CJ-H1",
+#     "HAR-PD-REX":"HAR-PD-REX-H1",
+#     "HAR-PD-REQ":"HAR-PD-REQ-H1",
+#     "HAR-PD-RS":"HAR-PD-RS-H1",
+#     "Lasso-HAR-PD-CJ":"Lasso-HAR-PD-CJ-H1",
+#     "Lasso-HAR-PD-REX":"Lasso-HAR-PD-REX-H1",
+#     "Lasso-HAR-PD-REQ":"Lasso-HAR-PD-REQ-H1",
+#     "Lasso-HAR-PD-RS":"Lasso-HAR-PD-RS-H1",
+# }
 
-# 删除缺失值
-data = data.dropna()
 
-# 提取 RV_true
-RV_true = data['RV']
+#
+#
+# model_files = {
+#     "HAR-CJ": "HAR-CJ-H5",
+#     "HAR-REQ": "HAR-REQ-H5",
+#     "HAR-REX": "HAR-REX-H5",
+#     "HAR-RS": "HAR-RS-H5",
+#     "HAR-RV": "HAR-RV-H5",
+#
+#    "HAR-PD-RV": "HAR-PD-RV-H5",
+#    "HAR-PD-CJ": "HAR-PD-CJ-H5",
+#     "HAR-PD-REX":"HAR-PD-REX-H5",
+#     "HAR-PD-REQ":"HAR-PD-REQ-H5",
+#     "HAR-PD-RS":"HAR-PD-RS-H5",
+#     "Lasso-HAR-PD-CJ":"Lasso-HAR-PD-CJ-H5",
+#     "Lasso-HAR-PD-REX":"Lasso-HAR-PD-REX-H5",
+#     "Lasso-HAR-PD-REQ":"Lasso-HAR-PD-REQ-H5",
+#     "Lasso-HAR-PD-RS":"Lasso-HAR-PD-RS-H5",
+# }
 
-# 获取所有包含 'har' 的列名
-har_columns = [col for col in data.columns if 'har' in col]
+#
+#
+model_files = {
+    "HAR-CJ": "HAR-CJ-H22",
+    "HAR-REQ": "HAR-REQ-H22",
+    "HAR-REX": "HAR-REX-H22",
+    "HAR-RS": "HAR-RS-H22",
+    "HAR-RV": "HAR-RV-H22",
+    "HAR-PD-RV": "HAR-PD-RV-H22",
+    "HAR-PD-CJ": "HAR-PD-CJ-H22",
+     "HAR-PD-REX":"HAR-PD-REX-H22",
+    "HAR-PD-REQ":"HAR-PD-REQ-H22",
+     "HAR-PD-RS":"HAR-PD-RS-H22",
+    "Lasso-HAR-PD-CJ":"Lasso-HAR-PD-CJ-H22",
+     "Lasso-HAR-PD-REX":"Lasso-HAR-PD-REX-H22",
+     "Lasso-HAR-PD-REQ":"Lasso-HAR-PD-REQ-H22",
+     "Lasso-HAR-PD-RS":"Lasso-HAR-PD-RS-H22",
 
-# 提取 HAR 模型的预测结果
-har_models = data[har_columns]
+}
 
-# 计算 ql_results
-ql_results = har_models.apply(lambda x: np.log(x) + RV_true / x, axis=0)
+eps = 1e-12
 
-# 计算 mse_results
-mse_results = har_models.apply(lambda x: (RV_true - x) ** 2, axis=0)
 
-# 去除异常值（将值截断在 99% 分位数）
-ql_threshold = ql_results.stack().quantile(0.99)
-ql_results_capped = ql_results.clip(upper=ql_threshold)
+# =====================================================
+# 2. 自动读取 csv / xlsx / xls
+# =====================================================
+def read_forecast_file(file_base):
+    possible_files = []
+    for ext in ["xlsx", "xls", "csv"]:
+        possible_files += glob.glob(os.path.join(data_dir, file_base + "." + ext))
 
-mse_threshold = mse_results.stack().quantile(0.99)
-mse_results_capped = mse_results.clip(upper=mse_threshold)
+    if len(possible_files) == 0:
+        raise FileNotFoundError(f"没有找到文件: {file_base}")
 
-# 导入用于 MCS 的库
-from arch.bootstrap import MCS
+    file_path = possible_files[0]
 
-# 设置随机数种子
-np.random.seed(234)
+    if file_path.endswith(".csv"):
+        df = pd.read_csv(file_path)
+    else:
+        df = pd.read_excel(file_path)
 
-# 准备数据（列为模型，行为时间序列）
-ql_results_df = ql_results_capped.copy()
+    df.columns = [c.strip() for c in df.columns]
 
-# 运行 MCS 程序
-mcs_ql = MCS(ql_results_df, size=0.1, reps=5000)
-mcs_ql_results = mcs_ql.compute()
+    required_cols = ["RV_actual", "RV_pred"]
+    for c in required_cols:
+        if c not in df.columns:
+            raise ValueError(f"{file_path} 中缺少列: {c}")
 
-# 输出结果
-print("QL Results MCS:")
-print(mcs_ql_results.pvalues)
+    df = df[required_cols].copy()
+    df["RV_actual"] = pd.to_numeric(df["RV_actual"], errors="coerce")
+    df["RV_pred"] = pd.to_numeric(df["RV_pred"], errors="coerce")
+    df = df.dropna()
 
-# 对 MSE 进行相同的处理
-np.random.seed(567)
-mse_results_df = mse_results_capped.copy()
-mcs_mse = MCS(mse_results_df, size=0.1, reps=5000)
-mcs_mse_results = mcs_mse.compute()
+    return df
 
-print("\nMSE Results MCS:")
-print(mcs_mse_results.pvalues)
+
+# =====================================================
+# 3. 构造损失函数
+# =====================================================
+loss_dict_mse = {}
+loss_dict_qlike = {}
+
+actual_ref = None
+
+for model_name, file_base in model_files.items():
+    df = read_forecast_file(file_base)
+
+    actual = df["RV_actual"].values
+    pred = df["RV_pred"].values
+
+    pred = np.maximum(pred, eps)
+    actual = np.maximum(actual, eps)
+
+    if actual_ref is None:
+        actual_ref = actual
+    else:
+        min_len = min(len(actual_ref), len(actual), len(pred))
+        actual_ref = actual_ref[:min_len]
+        actual = actual[:min_len]
+        pred = pred[:min_len]
+
+    mse_loss = (actual - pred) ** 2
+    qlike_loss = np.log(pred) + actual / pred
+
+    loss_dict_mse[model_name] = mse_loss
+    loss_dict_qlike[model_name] = qlike_loss
+
+
+# =====================================================
+# 4. 对齐所有模型长度
+# =====================================================
+min_len = min(len(v) for v in loss_dict_mse.values())
+
+loss_mse = pd.DataFrame({
+    k: v[:min_len] for k, v in loss_dict_mse.items()
+})
+
+loss_qlike = pd.DataFrame({
+    k: v[:min_len] for k, v in loss_dict_qlike.items()
+})
+
+
+# =====================================================
+# 5. 输出平均损失
+# =====================================================
+loss_summary = pd.DataFrame({
+    "MSE": loss_mse.mean(),
+    "QLIKE": loss_qlike.mean()
+})
+
+loss_summary["MSE_rank"] = loss_summary["MSE"].rank()
+loss_summary["QLIKE_rank"] = loss_summary["QLIKE"].rank()
+
+print("\n================ 平均损失结果 ================")
+print(loss_summary.sort_values("QLIKE"))
+
+
+# =====================================================
+# 6. MCS 检验函数
+# =====================================================
+def run_mcs(loss_df, size=0.05, reps=5000, block_size=10, method="R"):
+    """
+    size=0.05 表示 95% MCS
+    method 可选 'R' 或 'max'
+    """
+    mcs = MCS(
+        losses=loss_df,
+        size=size,
+        reps=reps,
+        block_size=block_size,
+        method=method,
+        bootstrap="stationary"
+    )
+
+    mcs.compute()
+
+    included = list(mcs.included)
+    excluded = list(mcs.excluded)
+    pvalues = mcs.pvalues
+
+    return mcs, included, excluded, pvalues
+
+
+# =====================================================
+# 7. MCS 检验：MSE，size=0.05
+# =====================================================
+mcs_mse_95, mse_in_95, mse_out_95, mse_p_95 = run_mcs(
+    loss_mse, size=0.05, reps=5000, block_size=10, method="R"
+)
+
+
+# =====================================================
+# 8. MCS 检验：QLIKE，size=0.05
+# =====================================================
+mcs_qlike_95, qlike_in_95, qlike_out_95, qlike_p_95 = run_mcs(
+    loss_qlike, size=0.05, reps=5000, block_size=10, method="R"
+)
+
+
+# =====================================================
+# 9. 输出 MCS 结果
+# =====================================================
+print("\n================ MCS-MSE 95% ================")
+print("Included models:", mse_in_95)
+print("Excluded models:", mse_out_95)
+print(mse_p_95)
+
+print("\n================ MCS-QLIKE 95% ================")
+print("Included models:", qlike_in_95)
+print("Excluded models:", qlike_out_95)
+print(qlike_p_95)
